@@ -14,15 +14,15 @@ moves = ProcessLines(lines)
 
 grid = GenerateGrid(moves)
 
-head = (0, 0)
-tail = (0, 0)
+knots = [ (0, 0) for x in range(10) ]
 
-grid.Set(tail, True)
+grid.Set((0, 0), True)
 
 for move in moves:
-    head = (head[0] + move[0], head[1] + move[1])
-    tail = MoveCloser(head, tail)
-    grid.Set(tail, True)
+    knots[0] = (knots[0][0] + move[0], knots[0][1] + move[1])
+    for i in range(1,len(knots)):
+        knots[i] = MoveCloser(knots[i-1], knots[i])
+    grid.Set(knots[9], True)
 
 count = 0
 for x in range(len(grid.grid)):
